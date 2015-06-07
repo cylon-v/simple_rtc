@@ -53,7 +53,7 @@ router.post('/sign_in', function(req, res){
 
 router.get('/authorize', function(req, res){
   if (req.session.user_id) {
-    res.jsonp({user: req.session.user_id});
+    res.jsonp({id: req.session.user_id});
   } else {
     res.sendStatus(403);
   }
@@ -65,6 +65,7 @@ router.get('/', authorize, function(req, res){
 });
 
 router.get('/contacts', authorizeAjax, contacts.list);
-router.get('/call/:contactId', authorizeAjax, contacts.call);
+router.get('/contacts/:id', authorizeAjax, contacts.one)
+router.get('/contacts/:id/call', authorizeAjax, contacts.call);
 
 module.exports = router;

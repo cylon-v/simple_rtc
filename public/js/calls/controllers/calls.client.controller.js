@@ -1,9 +1,8 @@
 'use strict';
 
-app.controller('CallsController', ['Socket', 'Auth'], function(Socket, Auth){
-  Socket.on('user.authorize', function(){
-    Auth.get().then(function(user){
-      Socket.emit('user.authorize.response', {user: user.id});
-    });
+app.controller('CallsController', ['$scope', 'Socket','Contacts', '$stateParams', function($scope, Socket, Contacts, $stateParams){
+  Contacts.get({id: $stateParams.id}, function(contact){
+    $scope.contact = contact;
   });
-});
+  Contacts.call({id: $stateParams.id});
+}]);

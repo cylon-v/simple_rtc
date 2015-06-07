@@ -6,7 +6,7 @@ angular.module('calls').factory('Contacts', ['$resource',
       id: '@id'
     }, {
       call: {
-        method: 'PUT',
+        method: 'GET',
         url: '/contacts/:id/call'
       }
     });

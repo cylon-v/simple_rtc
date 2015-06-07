@@ -1,5 +1,10 @@
 'use strict';
 
-angular.module('calls').factory('Socket', function(socketFactory){
-  return socketFactory();
-});
+angular.module('calls').factory('Socket', ['socketFactory',
+  function(socketFactory) {
+    return socketFactory({
+      prefix: '',
+      ioSocket: io.connect('http://localhost:3000')
+    });
+  }
+]);
