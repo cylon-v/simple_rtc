@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  .container(data-ng-controller='ChannelsController', data-ng-init='findOne()')
+    .page-header
+    .row(data-ng-controller='StreamerController')
+      .col-md-offset-1.col-md-10
+        .video.panel.panel-default(ng-cloak='')
+          .panel-heading
+            h3.panel-title Vladimir Kalinkin
+          .panel-body
+            video#camera.camera(autoplay='')
+          .panel-footer
+            .actions.row
+              button.btn.btn-danger.hang-up()
+                i.fa.fa-phone
+                .text Hang Up
+              button.btn.btn-default.fullscreen.pull-right
+                i.fa.fa-expand
+                .text Full Screen

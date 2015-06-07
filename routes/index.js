@@ -1,11 +1,9 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+    router = express.Router(),
+    contacts = require('../controllers/contacts.controller');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', contacts.list);
 
 module.exports = router;

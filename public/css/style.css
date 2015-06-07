@@ -1,8 +1,42 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.content {
+    margin-top: 50px;
 }
 
-a {
-  color: #00B7FF;
+.camera {
+    width: 100%;
 }
+
+[classname="camera"] {
+    width: 100%;
+}
+
+.video button {
+    float: left;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.video button .text {
+    display:inline-block;
+    float: right;
+    margin-left: 5px;
+}
+
+img.avatar {
+    width: 50px;
+}
+
+.btn.call {
+    float: right;
+    height: 50px;
+    width: 50px;
+    font-size: 22pt;
+}
+
+.contact {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+
+

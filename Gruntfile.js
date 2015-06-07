@@ -59,6 +59,9 @@ module.exports = function(grunt) {
         files: [
           {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/css', src: [
             'bootstrap/dist/css/bootstrap.css'
+          ]},
+          {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/css', src: [
+            'font-awesome/css/font-awesome.css'
           ]}
         ]
       },
@@ -153,5 +156,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['copy', 'lint', 'concurrent:default']);
   grunt.registerTask('debug', ['lint', 'concurrent:debug']);
   grunt.registerTask('lint', ['jshint', 'csslint']);
-  grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+  grunt.registerTask('build', ['lint', 'ngAnnotate', 'uglify', 'cssmin']);
 };
