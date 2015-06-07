@@ -10,3 +10,13 @@ var users = [
 exports.getAll = function() {
   return users;
 };
+
+exports.find = function(id) {
+  var user = null;
+  for(var i in users) {
+    if (users[i].id == id) {
+      user = users[i];
+    }
+  }
+  return user;
+};

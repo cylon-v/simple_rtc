@@ -1,9 +1,12 @@
 'use strict';
 
-var contacts = require('../db/contacts');
+var users = require('../db/users');
 
 exports.list = function(req, res) {
-  console.log('YES');
-  console.log(contacts.getAll());
-  res.render('index', { contacts: contacts.getAll() });
+  res.jsonp(users.getAll());
+};
+
+exports.call = function(req, res) {
+  var contact = users.find(req.params.contactId);
+  res.render('call', { contact: contact });
 };

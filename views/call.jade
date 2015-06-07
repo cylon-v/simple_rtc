@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  .container(data-ng-controller='ChannelsController', data-ng-init='findOne()')
+  .container(data-ng-controller='CallsController')
     .page-header
-    .row(data-ng-controller='StreamerController')
+    .row
       .col-md-offset-1.col-md-10
-        .video.panel.panel-default(ng-cloak='')
+        .video.panel.panel-default
           .panel-heading
-            h3.panel-title Vladimir Kalinkin
+            h3.panel-title= contact.name
           .panel-body
             video#camera.camera(autoplay='')
           .panel-footer

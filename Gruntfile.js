@@ -51,7 +51,10 @@ module.exports = function(grunt) {
         files: [
           {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/js', src: [
             'angularjs/angular.js',
-            'socket.io-client/socket.io.js'
+            'socket.io-client/socket.io.js',
+            'angular-socket-io/socket.js',
+            'angular-resource/angular-resource.js',
+            'angular-ui-router/release/angular-ui-router.js'
           ]}
         ]
       },

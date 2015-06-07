@@ -1,19 +1,4 @@
 extends layout
 block content
-  .container
-    .row
-      .col-sm-6.col-sm-offset-3
-        .page-header
-          h1 Contacts
-        ul.list-group
-          - each contact in contacts
-            li.list-group-item
-              .row
-                .col-sm-2.col-xs-2
-                  img.avatar(src='img/avatar.png')
-                .col-sm-8.col-xs-8
-                  .contact= contact.name
-                .col-sm-2.col-xs-2
-                  a.btn.btn-success.call(href="/call/#{contact.id}")
-                    i.fa.fa-phone
-
+  section
+    div(ui-view)
