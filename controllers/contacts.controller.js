@@ -7,6 +7,8 @@ exports.list = function(req, res) {
 };
 
 exports.call = function(req, res) {
-  var contact = users.find(req.params.contactId);
-  res.render('call', { contact: contact });
+  var contact = users.find(req.params.id);
+  var io = req.app.get('io');
+  io.sockets.in(req.params.id).emit('contact.call');
+  res.jsonp({contact: req.params.id});
 };

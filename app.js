@@ -1,14 +1,17 @@
 'use strict';
 
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var http = require('http');
+var express = require('express'),
+    path = require('path'),
+    logger = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    http = require('http'),
+    session = require('express-session'),
+    uuid = require('uuid');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var routes = require('./routes/index'),
+    users = require('./routes/users'),
+    User = require('./db/users');
 
 var app = express();
 
@@ -21,6 +24,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  genid: function(req) {
+    return uuid.v4();
+  },
+  secret: 'ffjHJHKKKJKgFNh5!5hjf67pp'
+}));
 
 app.use('/', routes);
 app.use('/users', users);
@@ -49,7 +58,17 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
 var server = http.createServer(app);
+var io = require('socket.io')(server),
+  broker = require('./brokers/calls.broker');
+
+app.set('io', io);
+io.on('connection', function(socket){
+  broker.authorize(socket);
+});
+
+
 server.listen(3000);
 
 

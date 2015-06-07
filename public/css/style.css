@@ -38,5 +38,22 @@ img.avatar {
     font-size: 18px;
 }
 
+.window {
+    padding: 20px 40px 20px;
+    color: #777;
+    background-color: #ffffff;
+    border-radius: 3px;
+}
+
+.window h2 {
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.window input[type=text] {
+    padding: 15px;
+}
+
 
 
