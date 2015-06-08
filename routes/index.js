@@ -65,6 +65,9 @@ router.get('/', authorize, function(req, res){
   res.render('index');
 });
 
+router.get('/history', authorize, calls.list);
+
+
 router.get('/contacts', authorizeAjax, contacts.list);
 router.get('/contacts/:id', authorizeAjax, contacts.one);
 router.get('/contacts/:id/call', authorizeAjax, contacts.call);

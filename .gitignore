@@ -30,3 +30,6 @@ public/lib
 
 # IDE specific files
 .idea
+
+.DS_Store
+public/uploads

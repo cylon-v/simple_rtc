@@ -5,16 +5,16 @@ var calls = require('../db/calls'),
     fs = require('fs');
 
 exports.list = function(req, res) {
-  res.jsonp(calls.getAll());
+  console.log(calls.getAll());
+  res.render('history', {calls: calls.getAll()});
 };
 
 exports.create = function(req, res){
   var id = crypto.randomBytes(16).toString('hex');
   var data = req.body.data.replace(/^data:audio\/ogg; codecs=opus;base64,/, "");
+  calls.add({id: id, name: req.body.name});
 
-  require("fs").writeFile(id + '.ogg', data, 'base64', function(err) {
-    console.log(err);
-  });
+  fs.writeFile('./public/uploads/' + id + '.ogg', data, 'base64');
 
   res.jsonp({id: id});
 };
