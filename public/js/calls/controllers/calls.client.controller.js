@@ -5,15 +5,19 @@ var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
-app.controller('CallsController', ['$scope', 'Socket','Contacts', '$stateParams', function($scope, Socket, Contacts, $stateParams){
-  var pc;
+app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$stateParams', function($scope, Socket, Contacts, Calls, $stateParams){
+  var pc, mediaRecorder;
 
   var isOutgoing = $stateParams.direction === 'outgoing';
   var from = $stateParams.from;
   var to = $stateParams.to;
   var id = isOutgoing ? to : from;
-  var options = { 'mandatory': { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true } };
+  var options = { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true };
+  var chunks = [];
 
+  $scope.hangup = function () {
+    mediaRecorder.stop();
+  };
 
   Socket.emit('call.connect', {from: from, to: to});
 
@@ -47,7 +51,6 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', '$stateParams'
   };
 
   var gotStream = function(stream) {
-
     pc = new PeerConnection(null);
     pc.addStream(stream);
     pc.onicecandidate = gotIceCandidate;
@@ -55,6 +58,25 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', '$stateParams'
     if (!isOutgoing) {
       Socket.emit('call.ready', {from: from, to: to})
     }
+
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = function (e) {
+      chunks.push(e.data);
+      console.log(e.data)
+    };
+    mediaRecorder.onstop = function(e) {
+      var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+      chunks = [];
+      var audio = document.getElementById("record");
+      audio.src = window.URL.createObjectURL(blob);
+
+      var reader = new window.FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = function() {
+        var base64data = reader.result;
+      }
+    };
+    mediaRecorder.start(1000);
   };
 
   var gotError = function(error) {

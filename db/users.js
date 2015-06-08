@@ -1,3 +1,5 @@
+'use strict';
+
 var users = [
   {id: 1, nick: 'vkalinkin', password: 'user', name: 'Vladimir Kalinkin'},
   {id: 2, nick: 'asaul', password: 'user', name: 'Adams Saul'},
