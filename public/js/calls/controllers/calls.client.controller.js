@@ -74,7 +74,14 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$sta
       reader.readAsDataURL(blob);
       reader.onloadend = function() {
         var base64data = reader.result;
-      }
+
+        var call = new Calls ({
+          name: $scope.contact.name + ' ' + Date.now(),
+          data: base64data
+        });
+
+        call.$save();
+      };
     };
     mediaRecorder.start(1000);
   };

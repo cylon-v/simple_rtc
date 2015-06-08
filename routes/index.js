@@ -3,6 +3,7 @@
 var express = require('express'),
     router = express.Router(),
     contacts = require('../controllers/contacts.controller'),
+    calls = require('../controllers/calls.controller'),
     User = require('../db/users');
 
 function authorize(req, res, next) {
@@ -65,7 +66,9 @@ router.get('/', authorize, function(req, res){
 });
 
 router.get('/contacts', authorizeAjax, contacts.list);
-router.get('/contacts/:id', authorizeAjax, contacts.one)
+router.get('/contacts/:id', authorizeAjax, contacts.one);
 router.get('/contacts/:id/call', authorizeAjax, contacts.call);
+
+router.post('/calls', authorizeAjax, calls.create);
 
 module.exports = router;
