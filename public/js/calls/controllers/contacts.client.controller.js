@@ -6,7 +6,9 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
       $scope.contacts = Contacts.query();
     };
     $scope.call = function(id) {
-      $location.path('/call/' + id);
+      Auth.get().then(function(user){
+        $location.path('/call/' + user.id + '/' + id + '/outgoing');
+      });
     };
 
     Socket.on('user.authorize', function(){
@@ -16,7 +18,8 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     });
 
     Socket.on('call', function(from){
-      console.log('FROM', from);
-      $location.path('/call/' + from.id);
+      Auth.get().then(function(user){
+        $location.path('/call/' + from.id + '/' + user.id + '/incoming');
+      });
     });
 }]);
