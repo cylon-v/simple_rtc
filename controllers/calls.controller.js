@@ -11,7 +11,7 @@ exports.list = function(req, res) {
 
 exports.create = function(req, res){
   var id = crypto.randomBytes(16).toString('hex');
-  var data = req.body.data.replace(/^data:audio\/ogg; codecs=opus;base64,/, "");
+  var data = req.body.data.replace(/^data:audio\/ogg; codecs=opus;base64,/, '');
   calls.add({id: id, name: req.body.name});
 
   fs.writeFile('./public/uploads/' + id + '.ogg', data, 'base64');

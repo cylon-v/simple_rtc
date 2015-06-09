@@ -3,9 +3,10 @@
 module.exports = function(grunt) {
   var watchFiles = {
     serverViews: ['app/views/**/*.*'],
-    serverJS: ['Gruntfile.js', 'app.js', 'routes/**/*.js'],
+    serverJS: ['Gruntfile.js', 'app.js', 'routes/**/*.js', 'controllers/**/*.js',
+      'brokers/**/*.js', 'middleware/**/*.js', 'db/**/*.js'],
     clientViews: ['public/views/**/*.html'],
-    clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
+    clientJS: ['public/js/*.js', 'public/js/calls/**/*.js'],
     clientCSS: ['public/*.css']
   };
 

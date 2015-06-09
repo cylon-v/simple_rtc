@@ -9,5 +9,5 @@ var app = angular.module('calls', ['ngResource', 'ui.router', 'btford.socket-io'
   }).state('call', {
     url: '/call/:from/:to/:direction',
     templateUrl: '/views/call.client.view.html'
-  })
+  });
 }]);

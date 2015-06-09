@@ -10,8 +10,8 @@ var express = require('express'),
     uuid = require('uuid');
 
 var routes = require('./routes/index'),
-    users = require('./routes/users'),
-    User = require('./db/users');
+    contacts = require('./routes/contacts'),
+    calls = require('./routes/calls');
 
 var app = express();
 
@@ -32,7 +32,8 @@ app.use(session({
 }));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/contacts', contacts);
+app.use('/calls', calls);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

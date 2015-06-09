@@ -5,7 +5,7 @@ var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
-app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socket','Contacts', 'Calls', function($scope, $stateParams, $location, Socket, Contacts, Calls){
+angular.module('calls').controller('CallsController', ['$scope', '$stateParams', '$location', 'Socket','Contacts', 'Calls', function($scope, $stateParams, $location, Socket, Contacts, Calls){
   var pc, mediaRecorder;
 
   var isOutgoing = $stateParams.direction === 'outgoing';
@@ -47,7 +47,7 @@ app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socke
   };
 
   var gotRemoteStream = function(event){
-    document.getElementById("phone").src = URL.createObjectURL(event.stream);
+    document.getElementById('phone').src = URL.createObjectURL(event.stream);
   };
 
   var gotStream = function(stream) {
@@ -56,13 +56,12 @@ app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socke
     pc.onicecandidate = gotIceCandidate;
     pc.onaddstream = gotRemoteStream;
     if (!isOutgoing) {
-      Socket.emit('call.ready', {from: from, to: to})
+      Socket.emit('call.ready', {from: from, to: to});
     }
 
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = function (e) {
       chunks.push(e.data);
-      console.log(e.data)
     };
     mediaRecorder.onstop = function(e) {
       var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
@@ -94,7 +93,6 @@ app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socke
   };
 
   Socket.on('call.message', function(message){
-    console.log(message);
     if (message.type === 'offer') {
       pc.setRemoteDescription(new SessionDescription(message));
       pc.createAnswer(
@@ -113,7 +111,6 @@ app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socke
   });
 
   Socket.on('call.ready', function(){
-    console.log('ready');
     pc.createOffer(
       gotLocalDescription,
       gotError,

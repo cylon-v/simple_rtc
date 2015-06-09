@@ -13,6 +13,6 @@ angular.module('calls').factory('Auth', ['$http', '$q',
         });
         return deferred.promise;
       }
-    }
+    };
   }
 ]);
