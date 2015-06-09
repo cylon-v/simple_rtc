@@ -7,6 +7,7 @@ var express = require('express'),
 
 router.get('/', auth.authorize, calls.list);
 router.post('/', auth.authorizeAjax, calls.create);
+router.put('/:id', auth.authorizeAjax, calls.update);
 
 module.exports = router;
 

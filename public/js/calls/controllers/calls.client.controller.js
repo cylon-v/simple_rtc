@@ -59,25 +59,23 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
       Socket.emit('call.ready', {from: from, to: to});
     }
 
+    var call = new Calls ({
+      name: $scope.contact.name,
+      data: ''
+    });
+    call.$save();
+
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = function (e) {
       chunks.push(e.data);
-    };
-    mediaRecorder.onstop = function(e) {
-      var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-      chunks = [];
+      console.log(e.data);
+      var blob = new Blob([e.data], { 'type' : 'audio/ogg; codecs=opus' });
       var reader = new window.FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = function() {
-        var base64data = reader.result;
-
-        var call = new Calls ({
-          name: $scope.contact.name,
-          data: base64data
-        });
-
-        call.$save();
-      };
+        call.data = reader.result;
+        call.$update();
+      }
     };
     mediaRecorder.start(5000);
   };

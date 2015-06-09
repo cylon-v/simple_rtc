@@ -10,13 +10,24 @@ exports.list = function(req, res) {
   res.render('history', {calls: calls.getAll()});
 };
 
+
+var handleData = function(data) {
+  return data.replace(/^data:audio\/ogg; codecs=opus;base64,/, '');
+};
+
 exports.create = function(req, res){
   var id = crypto.randomBytes(16).toString('hex');
-  var data = req.body.data.replace(/^data:audio\/ogg; codecs=opus;base64,/, '');
+  var data = handleData(req.body.data);
   var name = req.body.name + ' - ' + dateFormat(Date.now(), 'mm/dd/yyyy h:MM');
   calls.add({id: id, name: name });
 
   fs.writeFile('./public/uploads/' + id + '.ogg', data, 'base64');
 
   res.jsonp({id: id});
+};
+
+exports.update = function(req, res) {
+  var data = handleData(req.body.data);
+  fs.appendFile('./public/uploads/' + req.params.id + '.ogg', data, 'base64');
+  res.jsonp({id: req.params.id});
 };

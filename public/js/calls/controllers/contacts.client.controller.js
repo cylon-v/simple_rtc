@@ -3,7 +3,6 @@
 angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 'Socket', 'Auth', '$location',
   function($scope, Contacts, Socket, Auth, $location){
     var user;
-    var myId;
     $scope.online = {};
 
     Socket.emit('contacts.online');
@@ -18,7 +17,6 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
 
     Auth.get().then(function(u){
       user = u;
-      myId = u.id;
     });
 
     $scope.call = function(id) {
@@ -26,7 +24,7 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     };
 
     $scope.me = function(id) {
-      return id === myId;
+      return user && (id === user.id);
     };
 
     Socket.on('user.authorize', function(){
