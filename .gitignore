@@ -32,4 +32,4 @@ public/lib
 .idea
 
 .DS_Store
-public/uploads/*
+public/uploads/*.ogg

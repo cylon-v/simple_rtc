@@ -13,7 +13,6 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
   var to = $stateParams.to;
   var id = isOutgoing ? to : from;
   var options = { 'OfferToReceiveAudio': true };
-  var chunks = [];
 
   $scope.hangup = function () {
     Socket.emit('call.hang-up', {from: from, to: to});
@@ -67,8 +66,6 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
 
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = function (e) {
-      chunks.push(e.data);
-      console.log(e.data);
       var blob = new Blob([e.data], { 'type' : 'audio/ogg; codecs=opus' });
       var reader = new window.FileReader();
       reader.readAsDataURL(blob);
