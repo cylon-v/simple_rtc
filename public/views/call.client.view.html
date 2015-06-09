@@ -5,18 +5,13 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">{{contact.name}}</h3>
                 </div>
-                <div class="panel-body">
-                    <video id="camera" class="camera" autoplay></video>
+                <div class="panel-body text-center">
+                    <img src="/img/avatar.png" class="avatar-large">
                 </div>
                 <div class="panel-footer">
-                    <div class="row actions">
+                    <div class="row actions text-center">
                         <button class="btn btn-danger hang-up" data-ng-click="hangup()">
                             <i class="fa fa-phone"></i>
-                            <div class="text">Hang Up</div>
-                        </button>
-                        <button class="btn btn-default fullscreen pull-right">
-                            <i class="fa fa-expand"></i>
-                            <div class="text">Full Screen</div>
                         </button>
                     </div>
                 </div>
@@ -24,4 +19,4 @@
         </div>
     </div>
 </div>
-<audio id="record" controls></audio>
+<audio id="phone" class="phone" autoplay></audio>

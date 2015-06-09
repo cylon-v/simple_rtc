@@ -2,32 +2,31 @@
     margin-top: 100px;
 }
 
-.camera {
+.phone {
     width: 100%;
 }
 
-[classname="camera"] {
+[classname="phone"] {
     width: 100%;
-}
-
-.video button {
-    float: left;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-.video button .text {
-    display:inline-block;
-    float: right;
-    margin-left: 5px;
 }
 
 img.avatar {
     width: 50px;
 }
 
+img.avatar-large {
+    width: 300px;
+}
+
 .btn.call {
     float: right;
+    height: 50px;
+    width: 50px;
+    font-size: 22pt;
+}
+
+
+.btn.hang-up {
     height: 50px;
     width: 50px;
     font-size: 22pt;

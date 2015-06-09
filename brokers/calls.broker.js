@@ -20,7 +20,15 @@ module.exports.authorize = function(socket) {
   });
 
   socket.on('call.message', function(message){
-    console.log(message);
     socket.broadcast.to(room(message)).emit('call.message', message);
+  });
+
+  socket.on('call.hang-up', function(message){
+    socket.emit('call.hang-up', message);
+    socket.broadcast.to(room(message)).emit('call.hang-up', message);
+  });
+
+  socket.on('call.hang-up.accepted', function(message){
+    socket.leave(room(message));
   });
 };

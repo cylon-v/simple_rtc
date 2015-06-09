@@ -5,18 +5,18 @@ var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
-app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$stateParams', function($scope, Socket, Contacts, Calls, $stateParams){
+app.controller('CallsController', ['$scope', '$stateParams', '$location', 'Socket','Contacts', 'Calls', function($scope, $stateParams, $location, Socket, Contacts, Calls){
   var pc, mediaRecorder;
 
   var isOutgoing = $stateParams.direction === 'outgoing';
   var from = $stateParams.from;
   var to = $stateParams.to;
   var id = isOutgoing ? to : from;
-  var options = { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true };
+  var options = { 'OfferToReceiveAudio': true };
   var chunks = [];
 
   $scope.hangup = function () {
-    mediaRecorder.stop();
+    Socket.emit('call.hang-up', {from: from, to: to});
   };
 
   Socket.emit('call.connect', {from: from, to: to});
@@ -47,7 +47,7 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$sta
   };
 
   var gotRemoteStream = function(event){
-    document.getElementById("camera").src = URL.createObjectURL(event.stream);
+    document.getElementById("phone").src = URL.createObjectURL(event.stream);
   };
 
   var gotStream = function(stream) {
@@ -67,9 +67,6 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$sta
     mediaRecorder.onstop = function(e) {
       var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
       chunks = [];
-      var audio = document.getElementById("record");
-      audio.src = window.URL.createObjectURL(blob);
-
       var reader = new window.FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = function() {
@@ -124,5 +121,12 @@ app.controller('CallsController', ['$scope', 'Socket','Contacts', 'Calls', '$sta
     );
   });
 
-  navigator.getUserMedia({audio: true, video: true}, gotStream, gotError);
+  Socket.on('call.hang-up', function(message){
+    Socket.emit('call.hang-up.accepted', message);
+    mediaRecorder.stop();
+    pc.close();
+    $location.path('/');
+  });
+
+  navigator.getUserMedia({audio: true}, gotStream, gotError);
 }]);
