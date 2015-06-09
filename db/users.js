@@ -6,7 +6,8 @@ var users = [
   {id: 3, nick: 'alupe', password: 'user', name: 'Anderson Lupe'},
   {id: 4, nick: 'mhanna', password: 'user', name: 'Michael Hanna'},
   {id: 5, nick: 'aromanie', password: 'user', name: 'Anna Romanie'},
-  {id: 6, nick: 'user', password: 'user', name: 'Test User'}
+  {id: 6, nick: 'user1', password: 'user', name: 'Test User 1'},
+  {id: 7, nick: 'user2', password: 'user', name: 'Test User 2'}
 ];
 
 exports.getAll = function() {
