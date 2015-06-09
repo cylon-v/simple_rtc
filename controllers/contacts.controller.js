@@ -11,7 +11,6 @@ exports.one = function(req, res) {
   res.jsonp(contact);
 };
 
-
 exports.call = function(req, res) {
   var from = req.session.user_id;
   var io = req.app.get('io');

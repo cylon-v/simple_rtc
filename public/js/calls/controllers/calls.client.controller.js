@@ -79,7 +79,7 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
         call.$save();
       };
     };
-    mediaRecorder.start(1000);
+    mediaRecorder.start(5000);
   };
 
   var gotError = function(error) {

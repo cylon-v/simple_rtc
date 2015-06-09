@@ -67,6 +67,7 @@ var io = require('socket.io')(server),
 app.set('io', io);
 io.on('connection', function(socket){
   broker.authorize(socket);
+  socket.io = io;
 });
 
 

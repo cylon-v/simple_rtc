@@ -1,10 +1,14 @@
 'use strict';
 
+var online = {};
 module.exports.authorize = function(socket) {
   socket.emit('user.authorize');
 
   socket.on('user.authorize.response', function(user){
+    online[user.id] = true;
+    socket.user_id = user.id;
     socket.join(user.id); // Join user to its own room for to call it individually.
+    socket.io.sockets.emit('contacts.online', online);
   });
 
   var room = function(message) {
@@ -30,5 +34,14 @@ module.exports.authorize = function(socket) {
 
   socket.on('call.hang-up.accepted', function(message){
     socket.leave(room(message));
+  });
+
+  socket.on('disconnect', function(){
+    delete online[socket.user_id];
+    socket.io.sockets.emit('contacts.online', online);
+  });
+
+  socket.on('contacts.online', function() {
+    socket.emit('contacts.online', online);
   });
 };
