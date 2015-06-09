@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
             <ul class="list-group">
-                <li class="list-group-item" data-ng-repeat="contact in contacts">
+                <li class="list-group-item" data-ng-repeat="contact in contacts" data-ng-hide="me(contact.id)">
                     <div class="row">
                         <div class="col-sm-2 col-xs-2">
                             <img src="/img/avatar.png" class="avatar"/>

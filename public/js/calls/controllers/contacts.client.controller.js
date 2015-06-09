@@ -2,24 +2,29 @@
 
 angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 'Socket', 'Auth', '$location',
   function($scope, Contacts, Socket, Auth, $location){
+    var user;
+
     $scope.find = function() {
       $scope.contacts = Contacts.query();
     };
+
+    Auth.get().then(function(u){
+      user = u;
+    });
+
     $scope.call = function(id) {
-      Auth.get().then(function(user){
-        $location.path('/call/' + user.id + '/' + id + '/outgoing');
-      });
+      $location.path('/call/' + user.id + '/' + id + '/outgoing');
+    };
+
+    $scope.me = function(id) {
+      return id === user.id;
     };
 
     Socket.on('user.authorize', function(){
-      Auth.get().then(function(user){
-        Socket.emit('user.authorize.response', user);
-      });
+      Socket.emit('user.authorize.response', user);
     });
 
     Socket.on('call', function(from){
-      Auth.get().then(function(user){
-        $location.path('/call/' + from.id + '/' + user.id + '/incoming');
-      });
+      $location.path('/call/' + from.id + '/' + user.id + '/incoming');
     });
 }]);

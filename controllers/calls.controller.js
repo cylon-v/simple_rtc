@@ -2,7 +2,8 @@
 
 var calls = require('../db/calls'),
     crypto = require('crypto'),
-    fs = require('fs');
+    fs = require('fs'),
+    dateFormat = require('dateformat');
 
 exports.list = function(req, res) {
   console.log(calls.getAll());
@@ -12,7 +13,8 @@ exports.list = function(req, res) {
 exports.create = function(req, res){
   var id = crypto.randomBytes(16).toString('hex');
   var data = req.body.data.replace(/^data:audio\/ogg; codecs=opus;base64,/, '');
-  calls.add({id: id, name: req.body.name});
+  var name = req.body.name + ' - ' + dateFormat(Date.now(), 'mm/dd/yyyy h:MM');
+  calls.add({id: id, name: name });
 
   fs.writeFile('./public/uploads/' + id + '.ogg', data, 'base64');
 

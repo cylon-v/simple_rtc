@@ -72,7 +72,7 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
         var base64data = reader.result;
 
         var call = new Calls ({
-          name: $scope.contact.name + ' ' + Date.now(),
+          name: $scope.contact.name,
           data: base64data
         });
 
