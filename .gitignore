@@ -33,3 +33,6 @@ public/lib
 
 .DS_Store
 public/uploads/*.ogg
+
+config.js
+

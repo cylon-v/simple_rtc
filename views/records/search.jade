@@ -1,0 +1,15 @@
+extends ../layout
+block content
+  .row.search
+    div(style="display:none").alert.alert-danger#error
+    .col-sm-8.col-sm-offset-2
+      form.well.form-inline#searchForm
+        .row
+          .form-group.col-sm-10
+            label.sr-only(for="query") Text to search
+            input.form-control(id="query", name="query", type="text", placeholder="Text to search")
+          .col-sm-2
+            button.btn.btn-default#search(data-loading-text="Searching ...")
+              i.fa.fa-search
+              != "Search"
+      #result

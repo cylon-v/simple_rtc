@@ -6,6 +6,7 @@ record at the server side for further listening.
 1. `git clone https://github.com/cylon-v/simple_rtc.git`
 2. `npm install`
 3. `bower install`
+4. Define configuration file config.js (see config.example.js). 
 
 ## Running
 `grunt`
@@ -27,5 +28,3 @@ Current implementation of the application uses MediaRecorder object that is impl
 of MediaStream Recording API (http://w3c.github.io/mediacapture-record/MediaRecorder.html).
 Currently MediaRecorder implemented only in Mozilla Firefox (https://developer.mozilla.org/ru/docs/Web/API/MediaRecorder).
 Therefore client side of the application can work only in Mozilla Firefox version > 29.0.
-
-The application doesn't use real database. All data is stored in memory and will be lost after restart.

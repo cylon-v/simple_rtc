@@ -1,0 +1,24 @@
+extends ../layout
+block content
+  .container
+    h1 Records
+    table.table.table-hover
+      thead
+        tr
+          th Name
+          th Audio
+          th Date Added
+          th Date Indexed
+          th
+        tbody
+        each record in records
+          tr
+            td= record.name
+            td
+              audio(src=record.url controls)
+            td= record.addedAt
+            td= record.indexedAt
+            td
+              if record.indexedAt
+                a(href="/records/show/#{record._id}") Show
+    a.btn.btn-default(href="/new") Add
