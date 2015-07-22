@@ -1,19 +1,20 @@
 'use strict';
 
-var express = require('express'),
-    path = require('path'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    http = require('http'),
-    session = require('express-session'),
-    uuid = require('uuid');
-
-var routes = require('./routes/index'),
-    contacts = require('./routes/contacts'),
-    calls = require('./routes/calls');
-
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var http = require('http');
+var session = require('express-session');
+var uuid = require('uuid');
+var mongoose = require('mongoose');
+var routes = require('./routes/index');
+var contacts = require('./routes/contacts');
+var records = require('./routes/records');
 var app = express();
+
+mongoose.connect('mongodb://localhost/clarify-indexer');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +34,7 @@ app.use(session({
 
 app.use('/', routes);
 app.use('/contacts', contacts);
-app.use('/calls', calls);
+app.use('/records', records);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

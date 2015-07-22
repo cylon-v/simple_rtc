@@ -4,17 +4,20 @@ html
     link(rel='stylesheet', href='/lib/css/bootstrap.css')
     link(rel='stylesheet', href='/lib/css/font-awesome.css')
     link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='/css/search.css')
   body(ng-app='calls')
     header(class='navbar navbar-fixed-top navbar-default')
       div(class='container')
         div(class='navbar-header')
-          a(class='navbar-brand', href='/') Simple RTC
+          a(class='navbar-brand', href='/') Clarify Indexer
         .collapse.navbar-collapse
           ul.nav.navbar-nav
             li
               a(href='/') Contacts
             li
-              a(href='/calls') History
+              a(href='/records') History
+            li
+              a(href='/records/search') Search
 
     .content
       block content
@@ -27,7 +30,7 @@ html
     script(src='/js/calls/calls.client.module.js')
     script(src='/js/calls/controllers/calls.client.controller.js')
     script(src='/js/calls/services/contacts.client.service.js')
-    script(src='/js/calls/services/calls.client.service.js')
+    script(src='/js/calls/services/records.client.service.js')
     script(src='/js/calls/services/auth.client.service.js')
     script(src='/js/calls/services/socket.client.service.js')
     script(src='/js/calls/controllers/contacts.client.controller.js')
