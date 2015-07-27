@@ -3,12 +3,10 @@
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
 var passport = require('passport');
 var session = require('express-session');
-var uuid = require('uuid');
 var mongoose = require('mongoose');
 
 var config = require('./config');
@@ -25,18 +23,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(bodyParser.json({limit: '100mb'}));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  genid: function(req) {
-    return uuid.v4();
-  },
   secret: config.SESSION_SECRET
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json({limit: '100mb'}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/contacts', contacts);
