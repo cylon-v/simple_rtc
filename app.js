@@ -1,19 +1,24 @@
 'use strict';
 
-var express = require('express'),
-    path = require('path'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    http = require('http'),
-    session = require('express-session'),
-    uuid = require('uuid');
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var http = require('http');
+var passport = require('passport');
+var session = require('express-session');
+var uuid = require('uuid');
+var mongoose = require('mongoose');
 
-var routes = require('./routes/index'),
-    contacts = require('./routes/contacts'),
-    calls = require('./routes/calls');
+var config = require('./config');
+var routes = require('./routes/index');
+var contacts = require('./routes/contacts');
+var calls = require('./routes/calls');
+require('./middleware/passport')();
 
 var app = express();
+mongoose.connect(config.mongodb.URI);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,8 +33,10 @@ app.use(session({
   genid: function(req) {
     return uuid.v4();
   },
-  secret: 'ffjHJHKKKJKgFNh5!5hjf67pp'
+  secret: config.SESSION_SECRET
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/contacts', contacts);
@@ -59,7 +66,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
 var server = http.createServer(app);
 var io = require('socket.io')(server),
   broker = require('./brokers/calls.broker');
@@ -72,6 +78,5 @@ io.on('connection', function(socket){
 
 
 server.listen(3000);
-
 
 module.exports = app;

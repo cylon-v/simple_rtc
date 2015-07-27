@@ -1,3 +1,5 @@
+'use strict';
+
 var passport = require('passport');
 var local = require('./strategies/local');
 require('../../models/user');

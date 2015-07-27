@@ -6,24 +6,43 @@ var Record = require('mongoose').model('Record');
 var Call = require('mongoose').model('Call');
 var clarify = require('clarifyio');
 var config = require('../config');
-var clarifyClient = new clarify.Client("api.clarify.io", config.clarify.API_KEY);
+var clarifyClient = new clarify.Client('api.clarify.io', config.clarify.API_KEY);
 var  _ = require('lodash');
+var fs = require('fs');
+var dateFormat = require('dateformat');
 
 var handleData = function(data) {
   return data.replace(/^data:audio\/ogg; codecs=opus;base64,/, '');
+};
+
+var gatherHits = function(itemResult, terms) {
+  var hits = [];
+  (itemResult.term_results || []).forEach(function (tr, i) {
+    var term = terms[i] || '';
+    var matches = tr.matches || [];
+    matches.forEach(function (m) {
+      if (m.type === 'audio') {
+        m.hits.forEach(function (h) {
+          h.term = term;
+          hits.push(h);
+        });
+      }
+    });
+  });
+  return hits;
 };
 
 exports.create = function(req, res){
   var data = handleData(req.body.data);
   var name = req.body.name + ' - ' + dateFormat(Date.now(), 'mm/dd/yyyy h:MM');
 
-  fs.writeFile('./public/uploads/' + id + '.ogg', data, 'base64');
   Call.findById(req.params.callId, function(err, call){
     Record.create({
       name: name,
       call: call,
-      user: user
+      user: req.user
     }, function(err, record){
+      fs.writeFile('./public/uploads/' + record._id + '.ogg', data, 'base64');
       res.jsonp({_id: record._id});
     });
   });
@@ -87,17 +106,17 @@ exports.search = function(req, res) {
     var ids = [];
     if (count > 0) {
       ids = result._embedded.items.map(function(item){
-        return item._embedded["clarify:metadata"].data.recordId;
+        return item._embedded['clarify:metadata'].data.recordId;
       });
     }
 
-    Record.find({"_id": {"$in": ids}, user: req.user}, function(err, data){
+    Record.find({'_id': {'$in': ids}, user: req.user}, function(err, data){
       var records = _.transform(data, function(trecords, item){
         trecords[item.id] = item;
       });
 
       for(var i = 0; i < count; i++) {
-        var metadata = result._embedded.items[i]._embedded["clarify:metadata"].data;
+        var metadata = result._embedded.items[i]._embedded['clarify:metadata'].data;
         var itemResult = result.item_results[i];
         var media = records[metadata.recordId];
         if (media){
@@ -117,3 +136,4 @@ exports.search = function(req, res) {
     });
   });
 };
+

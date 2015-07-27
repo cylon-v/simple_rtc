@@ -1,21 +1,25 @@
 'use strict';
 
-var express = require('express'),
-    router = express.Router(),
-    users = require('../controllers/users.controller'),
-    auth = require('../middleware/auth');
+var express = require('express');
+var router = express.Router();
+var auth = require('../middleware/auth');
+var passport = require('passport');
 
 
 router.get('/sign_in', function(req, res){
   res.render('sign_in');
 });
 
-router.get('/', auth.authorize, function(req, res){
+router.get('/', auth.ensureAuthenticated, function(req, res){
   res.render('index');
 });
 
-router.post('/sign_in', users.sign_in);
-router.get('/authorize', users.authorize);
+router.get('/sign_in', function(req, res){
+  res.render('sign_in', { user: req.user });
+});
 
+router.post('/sign_in', passport.authenticate('local', { failureRedirect: '/sign_in'}), function(req, res){
+  res.redirect('/');
+});
 
 module.exports = router;

@@ -157,6 +157,9 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.option('force', true);
 
+  var seed = require('./tasks/seed');
+  grunt.task.registerTask('seed', 'Seeds default data', seed);
+
   grunt.registerTask('default', ['copy', 'lint', 'concurrent:default']);
   grunt.registerTask('debug', ['lint', 'concurrent:debug']);
   grunt.registerTask('lint', ['jshint', 'csslint']);

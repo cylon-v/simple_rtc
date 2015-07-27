@@ -1,14 +1,18 @@
 'use strict';
 
-var users = require('../db/users');
+require('../models/user');
+var User = require('mongoose').model('User');
 
 exports.list = function(req, res) {
-  res.jsonp(users.getAll());
+  User.find({}, function(err, users){
+    res.status(200).json({users: users});
+  });
 };
 
 exports.one = function(req, res) {
-  var contact = users.find(req.params.id);
-  res.jsonp(contact);
+  User.findById(req.params.id, function(err, user){
+    res.status(200).json({contact: user});
+  });
 };
 
 exports.call = function(req, res) {

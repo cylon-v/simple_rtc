@@ -1,4 +1,5 @@
 'use strict';
+/* globals MediaRecorder */
 
 var PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
 var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
@@ -72,7 +73,7 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
       reader.onloadend = function() {
         call.data = reader.result;
         call.$update();
-      }
+      };
     };
     mediaRecorder.start(5000);
   };

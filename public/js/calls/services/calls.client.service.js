@@ -8,6 +8,11 @@ angular.module('calls').factory('Calls', ['$resource',
       update: {
         method: 'PUT'
       }
+    }, {
+      history: {
+        method: 'GET',
+        url: '/user/:id/history'
+      }
     });
   }
 ]);
