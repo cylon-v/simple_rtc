@@ -16,7 +16,7 @@ module.exports.authorize = function(socket) {
   };
 
   socket.on('call.ready', function(message){
-    socket.broadcast.to(room(message)).emit('call.ready');
+    socket.broadcast.to(room(message)).emit('call.ready', message);
   });
 
   socket.on('call.connect', function(message){

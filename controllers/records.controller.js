@@ -33,7 +33,6 @@ var gatherHits = function(itemResult, terms) {
 };
 
 exports.create = function(req, res){
-  var data = handleData(req.body.data);
   var name = req.body.name + ' - ' + dateFormat(Date.now(), 'mm/dd/yyyy h:MM');
 
   Call.findById(req.params.callId, function(err, call){
@@ -42,7 +41,7 @@ exports.create = function(req, res){
       call: call,
       user: req.user
     }, function(err, record){
-      fs.writeFile('./public/uploads/' + record._id + '.ogg', data, 'base64');
+      fs.writeFile('./public/uploads/' + record._id + '.ogg', '', 'base64');
       res.jsonp({_id: record._id});
     });
   });

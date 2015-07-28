@@ -14,8 +14,10 @@ exports.list = function(req, res) {
 };
 
 exports.one = function(req, res) {
-  User.findById(req.params.id, function(err, user){
-    res.status(200).json({contact: user});
+  User.findById(req.params.id)
+    .select({_id: true, username: true})
+    .exec(function(err, user){
+    res.status(200).json(user);
   });
 };
 

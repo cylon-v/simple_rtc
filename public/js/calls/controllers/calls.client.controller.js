@@ -6,8 +6,11 @@ var IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
-angular.module('calls').controller('CallsController', ['$scope', '$stateParams', '$location', 'Socket','Contacts', 'Calls', function($scope, $stateParams, $location, Socket, Contacts, Calls){
-  var pc, mediaRecorder;
+angular.module('calls').controller('CallsController', ['$scope', '$stateParams', '$location',
+  'Socket','Contacts', 'Calls', 'Records',
+  function($scope, $stateParams, $location, Socket, Contacts, Calls, Records){
+
+  var pc, mediaRecorder, callId;
 
   var isOutgoing = $stateParams.direction === 'outgoing';
   var from = $stateParams.from;
@@ -27,6 +30,12 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
 
   if (isOutgoing) {
     Contacts.call({id: $stateParams.to});
+    var call = new Calls ({
+      to: $scope.contact._id
+    });
+    call.$save(function(call){
+      callId = call._id;
+    });
   }
 
   var gotIceCandidate = function(event){
@@ -56,14 +65,14 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
     pc.onicecandidate = gotIceCandidate;
     pc.onaddstream = gotRemoteStream;
     if (!isOutgoing) {
-      Socket.emit('call.ready', {from: from, to: to});
+      Socket.emit('call.ready', {from: from, to: to, callId: callId});
     }
 
-    var call = new Calls ({
-      name: $scope.contact.name,
-      data: ''
+    var record = new Records({
+      from: from,
+      to: to
     });
-    call.$save();
+    record.$save();
 
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = function (e) {
@@ -71,8 +80,8 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
       var reader = new window.FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = function() {
-        call.data = reader.result;
-        call.$update();
+        record.data = reader.result;
+        record.$update();
       };
     };
     mediaRecorder.start(5000);
@@ -106,7 +115,8 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
     }
   });
 
-  Socket.on('call.ready', function(){
+  Socket.on('call.ready', function(message){
+    callId = message.callId;
     pc.createOffer(
       gotLocalDescription,
       gotError,

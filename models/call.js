@@ -4,15 +4,14 @@ var mongoose = require('mongoose');
 
 var Call = new mongoose.Schema({
   date: Date,
-  user: {
+  from: {
     type: mongoose.Schema.ObjectId,
     ref: 'User'
   },
-  clarify: {
-    bundle_id: {
-      type: String
-    }
-  }
+  to: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
 });
 
 module.exports = mongoose.model('Call', Call);

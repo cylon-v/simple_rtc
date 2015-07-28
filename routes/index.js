@@ -38,7 +38,7 @@ router.post('/sign_up', function(req, res){
 });
 
 router.get('/authorize', auth.ensureAuthenticatedAjax, function(req, res){
-  res.status(200).json({user: req.user});
+  res.status(200).json(req.user);
 });
 
 module.exports = router;
