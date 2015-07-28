@@ -3,9 +3,13 @@
 require('../models/user');
 var User = require('mongoose').model('User');
 
+exports.index = function(req, res){
+  res.render('index', {user: req.user});
+};
+
 exports.list = function(req, res) {
-  User.find({}, function(err, users){
-    res.status(200).json({users: users});
+  User.find({_id: {$ne: req.user._id}}, function(err, users){
+    res.status(200).json(users);
   });
 };
 

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var http = require('http');
 var passport = require('passport');
 var session = require('express-session');
+var flash = require('connect-flash');
 var mongoose = require('mongoose');
 
 var config = require('./config');
@@ -31,6 +32,7 @@ app.use(passport.session());
 app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(flash());
 
 app.use('/', routes);
 app.use('/contacts', contacts);

@@ -1,6 +1,7 @@
 'use strict';
 
-var app = angular.module('calls', ['ngResource', 'ui.router', 'btford.socket-io']).config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+var app = angular.module('calls', ['ngResource', 'ui.router', 'btford.socket-io'])
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
   $urlRouterProvider.otherwise('/');
 
   $stateProvider.state('listContacts', {

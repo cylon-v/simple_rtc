@@ -3,7 +3,7 @@
 angular.module('calls').factory('Contacts', ['$resource',
   function($resource) {
     return $resource('contacts/:id', {
-      id: '@id'
+      id: '@_id'
     }, {
       call: {
         method: 'GET',

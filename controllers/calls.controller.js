@@ -5,6 +5,6 @@ var Call = require('mongoose').model('Call');
 
 exports.list = function(req, res) {
   Call.find({user: req.user}, function(err, calls){
-    res.render('history', {calls: calls});
+    res.render('history', {calls: calls, user: req.user});
   });
 };

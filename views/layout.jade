@@ -11,10 +11,21 @@ html
           a(class='navbar-brand', href='/') Simple RTC
         .collapse.navbar-collapse
           ul.nav.navbar-nav
-            li
-              a(href='/') Contacts
-            li
-              a(href='#/calls') History
+            if (user)
+              li
+                a(href='/') Contacts
+              li
+                a(href='#/calls') History
+
+          ul.nav.navbar-nav.navbar-right
+            if (user)
+              li
+                a(href='/sign_out') Sign out
+            else
+              li
+                a(href='/sign_in') Sign in
+              li
+                a(href='/sign_up') Sign up
 
     .content
       block content
