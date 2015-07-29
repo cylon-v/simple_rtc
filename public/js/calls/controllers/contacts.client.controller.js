@@ -8,9 +8,7 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     Socket.emit('contacts.online');
 
     $scope.find = function() {
-      Contacts.query(function(contacts){
-        $scope.contacts = contacts;
-      });
+      $scope.contacts = Contacts.query();
     };
 
     $scope.isOnline = function(id) {
@@ -22,11 +20,12 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     });
 
     $scope.call = function(id) {
+      console.log(id);
       $location.path('/call/' + user._id + '/' + id + '/outgoing');
     };
 
     $scope.me = function(id) {
-      return user && (id === user._id);
+      return user && (id === user.id);
     };
 
     Socket.on('user.authorize', function(){
@@ -34,6 +33,7 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     });
 
     Socket.on('call', function(from){
+      console.log(from);
       $location.path('/call/' + from._id + '/' + user._id + '/incoming');
     });
 
