@@ -42,7 +42,7 @@ exports.create = function(req, res){
       user: req.user
     }, function(err, record){
       fs.writeFile('./public/uploads/' + record._id + '.ogg', '', 'base64');
-      res.jsonp({_id: record._id});
+      res.status(200).json({id: record._id});
     });
   });
 };

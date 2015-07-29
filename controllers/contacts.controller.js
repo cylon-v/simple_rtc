@@ -22,9 +22,8 @@ exports.one = function(req, res) {
 };
 
 exports.call = function(req, res) {
-  var from = req.session.user_id;
+  var from = req.user._id;
   var io = req.app.get('io');
-  console.log(req.params.id);
   io.sockets.in(req.params.id).emit('call', {id: from});
   res.jsonp({contact: req.params.id});
 };

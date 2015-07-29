@@ -6,7 +6,7 @@ var calls = require('../controllers/calls.controller');
 var auth = require('../middleware/auth');
 
 router.get('/', auth.ensureAuthenticatedAjax, calls.list);
-router.post('/:id/', auth.ensureAuthenticatedAjax, calls.create);
+router.post('/', auth.ensureAuthenticatedAjax, calls.create);
 
 module.exports = router;
 

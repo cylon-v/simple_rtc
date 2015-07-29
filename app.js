@@ -14,6 +14,7 @@ var config = require('./config');
 var routes = require('./routes/index');
 var contacts = require('./routes/contacts');
 var calls = require('./routes/calls');
+var records = require('./routes/records');
 require('./middleware/passport')();
 
 var app = express();
@@ -37,6 +38,7 @@ app.use(flash());
 app.use('/', routes);
 app.use('/contacts', contacts);
 app.use('/calls', calls);
+app.use('/records', records);
 
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

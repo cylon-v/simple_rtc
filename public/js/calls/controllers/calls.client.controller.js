@@ -10,7 +10,7 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
   'Socket','Contacts', 'Calls', 'Records',
   function($scope, $stateParams, $location, Socket, Contacts, Calls, Records){
 
-  var pc, mediaRecorder, callId;
+  var pc, mediaRecorder, callId, record;
 
   var isOutgoing = $stateParams.direction === 'outgoing';
   var from = $stateParams.from;
@@ -26,17 +26,18 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
 
   Contacts.get({id: id}, function(contact){
     $scope.contact = contact;
-  });
 
-  if (isOutgoing) {
-    Contacts.call({id: $stateParams.to});
-    var call = new Calls ({
-      to: $scope.contact._id
-    });
-    call.$save(function(call){
-      callId = call._id;
-    });
-  }
+    if (isOutgoing) {
+      Contacts.call({id: $stateParams.to});
+      var call = new Calls ({
+        to: $scope.contact._id
+      });
+      call.$save(function(call){
+        callId = call._id;
+      });
+    }
+
+  });
 
   var gotIceCandidate = function(event){
     if (event.candidate) {
@@ -68,7 +69,7 @@ angular.module('calls').controller('CallsController', ['$scope', '$stateParams',
       Socket.emit('call.ready', {from: from, to: to, callId: callId});
     }
 
-    var record = new Records({
+    record = new Records({
       from: from,
       to: to
     });

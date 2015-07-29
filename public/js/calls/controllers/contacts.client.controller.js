@@ -20,7 +20,7 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     });
 
     $scope.call = function(id) {
-      console.log(id);
+      console.log('OUT', user._id);
       $location.path('/call/' + user._id + '/' + id + '/outgoing');
     };
 
@@ -33,7 +33,7 @@ angular.module('calls').controller('ContactsController', ['$scope', 'Contacts', 
     });
 
     Socket.on('call', function(from){
-      console.log(from);
+      console.log('IN', from);
       $location.path('/call/' + from._id + '/' + user._id + '/incoming');
     });
 

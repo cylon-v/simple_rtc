@@ -52,6 +52,9 @@ module.exports = function(grunt) {
         files: [
           {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/js', src: [
             'angularjs/angular.js',
+            'jquery/dist/jquery.js',
+            'lodash/dist/lodash.js',
+            'jplayer/dist/jplayer/jquery.jplayer.js',
             'socket.io-client/socket.io.js',
             'angular-socket-io/socket.js',
             'angular-resource/angular-resource.js',
@@ -62,10 +65,18 @@ module.exports = function(grunt) {
       css: {
         files: [
           {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/css', src: [
-            'bootstrap/dist/css/bootstrap.css'
-          ]},
-          {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/css', src: [
-            'font-awesome/css/font-awesome.css'
+            'bootstrap/dist/css/bootstrap.css',
+            'font-awesome/css/font-awesome.css',
+            'jplayer/dist/skin/blue.monday/css/jplayer.blue.monday.css'
+          ]}
+        ]
+      },
+      images: {
+        files: [
+          {expand: true, flatten: true, cwd: 'bower_components', dest: 'public/lib/image', src: [
+            'jplayer/dist/skin/blue.monday/image/jplayer.blue.monday.jpg',
+            'jplayer/dist/skin/blue.monday/image/jplayer.blue.monday.seeking.gif',
+            'jplayer/dist/skin/blue.monday/image/jplayer.blue.monday.video.play.png'
           ]}
         ]
       },
